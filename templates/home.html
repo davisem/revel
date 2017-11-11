@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Python VariantSearch </title>
+        <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <form class="form-horizontal text-center" id="query-form">
+            <div class="form-group">
+                <div class="col-md-8">
+                    <h3>VariantSearch </h3>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="seq-one" class="col-md-2 control-label">Chromosome</label>
+                <div class="col-md-6">
+                    <input name="seq1" class="form-control" id="seq1" placeholder="e.g. 1">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="seq-two" class="col-md-2 control-label">Coordinate</label>
+                <div class="col-md-6">
+                    <input name="seq2" class="form-control" id="seq2" placeholder="e.g. 12004883">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="method" class="col-md-2 control-label">Database</label>
+                <div class="col-md-6">
+                    <div class="checkbox">
+                        <select name="method" class="form-control">
+                            <option>REVEL</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+              <div class="col-md-6">
+                <button type="submit" class="btn btn-primary">Search</button>
+              <div/>
+            <div/>
+        </form>
+    </body>
+    <script>
+        $(document).ready(function() {
+            $("#query-form").submit(function(event) {
+                event.preventDefault();
+                var elements = $("#query-form").serializeArray();
+                var chromosome = elements[0];
+                var coordinate = elements[1];
+                var method = elements[2];
+
+                // ensure seqs are valid
+                var chromosome_str = chromosome["value"];
+                var coordinate_int = coordinate["value"];
+          
+                if (chromosome_str == null || chromosome_str == "") {
+                    alert("Please enter a valid Chromosome");
+                }
+
+                else if (coordinate_int == null || coordinate_int == "") {
+                    alert("Please enter a valid Coordinate");
+                }
+
+                else {
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', "http://localhost:5002/search");
+                    xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
+                    var jsonStr = JSON.stringify({"data": elements});
+                    console.log(jsonStr);
+                    xhr.send(jsonStr);
+                    xhr.onreadystatechange = function() {
+                        if (xhr.readyState == XMLHttpRequest.DONE) {
+                            window.location.href = 'http://localhost:5002/result';
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</html>

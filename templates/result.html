@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+   <body>
+   
+      <table border = 1>
+         <thead>
+            <td>Chrom</td>
+            <td>Position</td>
+            <td>Ref</td>
+            <td>Alt</td>
+            <td>aaRef</td>
+            <td>aaAlt</td>
+            <td>REVEL</td>
+         </thead>
+         
+         {% for row in rows %}
+            <tr>
+               <td>{{row["chrom"]}}</td>
+               <td>{{row["pos"]}}</td>
+               <td> {{row["ref"]}}</td>
+               <td>{{row['alt']}}</td>	
+               <td>{{row['aaref']}}</td>
+               <td>{{row['aaalt']}}</td>
+            </tr>
+         {% endfor %}
+      </table>
+      
+      <a href = "/">Go back to home</a>
+      
+   </body>
+</html>

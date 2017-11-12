@@ -1,31 +1,51 @@
 <!doctype html>
 <html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+</head>
    <body>
    
       <table border = 1>
          <thead>
-            <td>Chrom</td>
-            <td>Position</td>
-            <td>Ref</td>
-            <td>Alt</td>
-            <td>aaRef</td>
-            <td>aaAlt</td>
-            <td>REVEL</td>
+            <th>Chrom</th>
+            <th>Position</th>
+            <th>Ref</th>
+            <th>Alt</th>
+            <th>aaRef</th>
+            <th>aaAlt</th>
+            <th>REVEL</th>
          </thead>
          
          {% for row in rows %}
             <tr>
                <td>{{row["chrom"]}}</td>
-               <td>{{row["pos"]}}</td>
+               <td>{{row["hg19_pos"]}}</td>
                <td> {{row["ref"]}}</td>
                <td>{{row['alt']}}</td>	
                <td>{{row['aaref']}}</td>
                <td>{{row['aaalt']}}</td>
+               <td>{{row['REVEL']}}</td>
             </tr>
          {% endfor %}
       </table>
       
-      <a href = "/">Go back to home</a>
+      <a href = "/">Search Again</a>
       
    </body>
 </html>

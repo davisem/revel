@@ -31,6 +31,8 @@
                     <div class="checkbox">
                         <select name="method" class="form-control">
                             <option>REVEL</option>
+                            <option>COSMIC (Coming soon) </option>
+                            <option>VEP (Coming soon) </option>
                         </select>
                     </div>
                 </div>
@@ -65,17 +67,18 @@
 
                 else {
                     var xhr = new XMLHttpRequest();
-                    xhr.open('POST', "http://localhost:5002/search");
+                    xhr.open('POST', "http://localhost:5000/search", true);
                     xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
                     var jsonStr = JSON.stringify({"data": elements});
-                    console.log(jsonStr);
-                    xhr.send(jsonStr);
+
                     xhr.onreadystatechange = function() {
-                        if (xhr.readyState == XMLHttpRequest.DONE) {
-                            window.location.href = 'http://localhost:5002/result';
+        
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            window.location = xhr.responseText;
                         }
                     }
-                }
+                    xhr.send(jsonStr);
+                    };
             });
         });
     </script>

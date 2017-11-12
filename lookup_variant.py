@@ -1,31 +1,41 @@
 import sqlite3 as sql
 import os
-from flask.ext.cache import Cache
 from flask import Flask, render_template, json, request, redirect, url_for, session
 
 app = Flask(__name__)
 app.secret_key = 'You Will Never Guess'
 app.config['SESSION_TYPE'] = 'filesystem'
 
-cache = Cache(app, config={'CACHE_TYPE': 'redis'})
-
 @app.route('/')
 def main():
     return render_template('home.html')
 
-@app.route('/search', methods=["POST", "GET"])
+
+@app.route('/search', methods=["POST"])
 def search():
-    data = json.dumps(request.json)
-    return redirect(url_for("whatever", chrom='1', start='35146'))
 
-@app.route('/whatever/<chrom>/<start>', methods=["POST", "GET"])
-def whatever(chrom, start):
+    chrom = request.form['chrom']
+    coord = request.form['coord']
+    db = request.form['db']
 
-    query = "SELECT * FROM variants WHERE chrom={} and hg19_pos={}".format(chrom, start)
-    conn = sql.connect("REVEL.db")
-    conn.row_factory = sql.Row
-    cur = conn.cursor()
-    rows = cur.execute(query)
+    if db.lower() != 'revel':
+        return "Sorry, only the revel database is supported", 404
+
+    return redirect(url_for("result", chrom=chrom, start=coord))
+
+
+@app.route('/result/<chrom>/<start>', methods=["GET"])
+def result(chrom, start):
+
+    # replace with query
+    rows = [{"chrom": "chr{}".format(chrom),
+             "hg19_pos": start,
+             "ref": "A",
+             "alt": "T",
+             "aaref": "TT",
+             "aaalt": "TT",
+             "REVEL": 0.01}]
+
     return render_template("result.html", rows=rows)
 
 if __name__ == "__main__":

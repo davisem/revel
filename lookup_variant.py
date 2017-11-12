@@ -33,18 +33,11 @@ def search():
 @app.route('/result/<chrom>/<start>', methods=["GET"])
 def result(chrom, start):
 
-    # replace with query
-    rows = [{"chrom": "chr{}".format(chrom),
-             "hg19_pos": start,
-             "ref": "A",
-             "alt": "T",
-             "aaref": "TT",
-             "aaalt": "TT",
-             "REVEL": 0.01}]
     conn = sql.connect("REVEL.db")
     conn.row_factory = sql.Row
     cur = conn.cursor()
     rows = cur.execute("SELECT * FROM variants WHERE chrom={} and hg19_pos={}".format(chrom, start))
+    
     return render_template("result.html", rows=rows)
 
 if __name__ == "__main__":

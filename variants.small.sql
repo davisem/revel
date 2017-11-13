@@ -1,0 +1,10 @@
+PRAGMA foreign_keys=OFF;
+BEGIN TRANSACTION;
+CREATE TABLE variants(
+chrom INT(2) NOT NULL,
+hg19_pos INT(15) NOT NULL,
+ref CHR(2) NOT NULL,
+alt CHR(2) NOT NULL,
+aaref CHR(2) NOT NULL,
+aaalt CHR(2) NOT NULL,
+REVEL FLOAT(5) NOT NULL);

@@ -1,10 +1,8 @@
 import sqlite3 as sql
 import os
-from flask import Flask, render_template, json, request, redirect, url_for, session
+from flask import Flask, render_template, json, request, redirect, url_for
 
 app = Flask(__name__)
-app.secret_key = 'You Will Never Guess'
-app.config['SESSION_TYPE'] = 'filesystem'
 
 @app.route('/')
 def main():
@@ -37,8 +35,8 @@ def result(chrom, start):
     conn.row_factory = sql.Row
     cur = conn.cursor()
     rows = cur.execute("SELECT * FROM variants WHERE chrom={} and hg19_pos={}".format(chrom, start))
-    
-    return render_template("result.html", rows=rows)
+
+    return render_template("result.html", rows=rows, chrom=chrom, start=start)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

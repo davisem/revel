@@ -44,6 +44,15 @@ a:hover {
     border-radius: 50%;
 }
 
+.sigColor {
+  color: red;
+}
+
+caption {
+  font-weight: bold;
+  text-align: right;
+}
+
 </style>
 </head>
    <body>
@@ -51,7 +60,7 @@ a:hover {
       <table border = 1>
          <thead>
             <th>Chrom</th>
-            <th>Position</th>
+            <th>Position (hg19)</th>
             <th>Ref</th>
             <th>Alt</th>
             <th>aaRef</th>
@@ -67,10 +76,17 @@ a:hover {
                <td>{{row['alt']}}</td>	
                <td>{{row['aaref']}}</td>
                <td>{{row['aaalt']}}</td>
-               <td>{{row['REVEL']}}</td>
+               <td class="highlight", id="revel">{{row['REVEL']}}</td>
             </tr>
          {% endfor %}
+
+        <caption align="bottom">REVEL >= 0.5 is pathogenic</caption>
       </table>
+      <script>
+        function sigRevel() {
+          document.getElementById("revel").style.color="red";
+        }
+      </script>
       <a href = "/">Search Again</a>
       <a href="{{ url_for('result', chrom=chrom, start=start|int - 1) }}" class="previous">&laquo; Previous</a>
       <a href="{{ url_for('result', chrom=chrom, start=start|int + 1) }}" class="next">Next &raquo;</a>

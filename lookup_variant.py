@@ -34,7 +34,8 @@ def result(chrom, start):
     conn = sql.connect("REVEL.db")
     conn.row_factory = sql.Row
     cur = conn.cursor()
-    rows = cur.execute("SELECT * FROM variants WHERE chrom={} and hg19_pos={}".format(chrom, start))
+
+    rows = cur.execute('SELECT * FROM variants WHERE chrom=? and hg19_pos=?', (chrom, start))
 
     return render_template("result.html", rows=rows, chrom=chrom, start=start)
 
